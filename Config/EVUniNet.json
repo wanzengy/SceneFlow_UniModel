@@ -1,0 +1,135 @@
+{
+    "Data": {
+        "num_bins": 3,
+        "augmentation": [],
+        "__augmentation": ["Horizontal", "Vertical", "Polarity", "VariNum"],
+        "augment_prob": [],
+        "get_gt": true
+    },
+    
+    "Model": {
+        "name": "EVUniNet",
+        "base_num_channels": 16,
+        "kernel_size": 3,
+        "num_bins": 3,
+        "num_encoders": 4,
+        "norm_input": false,
+        "norm": null,
+        "use_upsample_conv": true,
+        "norm_residual_blocks": 2,
+        "num_output_channels": 1,
+        "skip_type": "concat",
+        "channel_multiplier": 2,
+        "activations": ["relu", null],
+        "final_activation": "relu",
+        "mask_output": true
+    },
+    
+    "Loss": {
+        "resolution": [256, 256],
+        "__resolution": [256, 256],
+        "flow_regul_weight": 0.001,
+        "stereo_weight": 1.0,
+        "consistency_weight": 0.0,
+        "smooth_weight": 0.2,
+        "flow_scaling": 256,
+        "mask_output": true,
+        "overwrite_intermediate": false,
+        "clip_grad": 0
+    },
+    
+    "Rec": {
+        "dir": "Output",
+        "enable": true,
+        "visdom": true,
+        "store": true
+    },
+    
+    "Train_Dataset": {
+        "MVSEC": {
+            "path": "Datasets/MVSEC/train",
+            "window": 30000,
+            "seq_len": 1,
+            "resolution": [256, 256],
+            "batch_size": 8,
+            "lr": 0.001,
+            "num_epochs": 10,
+            "focal": 194.8,
+            "baseline": 0.1,
+            "debug": false
+        },
+
+        "UZHFPV": {
+            "path": "Datasets/UZHFPV/Optical_Flow",
+            "mode": "events",
+            "__mode": "events/time/frames",
+            "window": 1000,
+            "seq_len": 10,
+            "resolution": [128, 128],
+            "batch_size": 16,
+            "lr": 0.000001,
+            "num_epochs": 1,
+            "debug": false
+        },
+
+        "DSEC": {
+            "path": "Datasets/DSEC/train/raw_small/",
+            "delta_t_ms": 10,
+            "seq_len": 10,
+            "__mode": "events/time/frames",
+            "resolution": [480, 640],
+            "crop_window": {
+                "start_y":70,
+                "crop_height":256,
+                "start_x":70,
+                "crop_width": 256
+            },
+            "encoding": "list",
+            "batch_size": 1,
+            "lr": 0.0001,
+            "num_epochs": 50,
+            "debug": false
+        }
+    },
+    
+    "Test_Dataset": {
+        "MVSEC": {
+            "path": "Datasets/MVSEC/train",
+            "window": 30000,
+            "seq_len": 1,
+            "resolution": [256, 256],
+            "focal": 194.8,
+            "baseline": 0.1,
+            "debug": false
+        },
+
+        "DSEC": {
+            "name": "DSEC",
+            "path": "Datasets/DSEC/test/raw/",
+            "delta_t_ms": 100,
+            "__mode": "events/time/frames",
+            "resolution": [480, 640],
+            "encoding": "list",
+            "debug": false
+        },
+
+        "ECD": {
+            "name": "ECD",
+            "path": "Datasets/ECD/h5",
+            "__mode": "events/time/frames",
+            "resolution": [180, 240],
+            "encoding": "list",
+            "debug": false
+        },
+
+        "tmp": {
+            "name": "tmp",
+            "path": "Datasets/tmp1/1",
+            "__mode": "events/time/frames",
+            "resolution": [260, 346],
+            "encoding": "list",
+            "debug": false
+        }
+    }
+
+}
